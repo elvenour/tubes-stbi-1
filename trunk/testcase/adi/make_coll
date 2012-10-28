@@ -1,0 +1,99 @@
+# Prepare the experimental database adi.indexed from the text files in this
+# directory.  
+
+
+
+set database = ~smart/indexed_colls/adi
+set common_words = ~smart/lib/common_words
+set bin = ~smart/bin
+
+cat > index_spec <<EOF1
+database $database
+current_ctype   0
+  ctype_storage  v
+  ctype_stop  common_words
+  ctype_stem  full
+current_section  i
+  section_parsing_method  begin_doc
+current_section  a
+current_section  b
+current_section  w
+  section_parsing_method  full
+  token_word  0
+  tolen_proper_noun 0
+current_section  t
+  section_parsing_method  full
+  token_word  0
+current_section  o
+  section_parsing_method  end_doc
+title_section  t
+doc_weight_tf   none
+doc_weight_coll none
+doc_weight_norm none
+query_weight_tf   none
+query_weight_coll none
+query_weight_norm none
+EOF1
+
+cat > ret_spec << EOF2
+database $database
+collection_sim inverted
+EOF2
+
+cat > fdbk_spec << EOF3
+database $database
+EOF3
+
+
+$bin/smart_create $database << EOF
+3563
+index_spec
+ret_spec
+pre_parser
+qry_spec
+$common_words
+
+EOF
+
+set current = $cwd
+cd $database
+echo "adi smart_create done"
+
+# Index the documents (term-frequency weighting) 
+echo $current/adi.all | $bin/smart_enter $database
+echo "adi smart_enter done"
+
+# Index the query (term_frequency weighting)
+echo $current/query.text | ./pre_parser | $bin/creat_index index_spec -n 1 | $bin/look_text index_spec 
+
+# Create the relational object giving the relevant docs for each query
+$bin/rel_to_rr qrels < $current/qrels.text
+
+#Copy the feedback specification file
+cp $current/fdbk_spec fdbk_spec
+
+# Move the document and query vectors and
+# re-weight them to be a tf*idf variant.
+mv doc tf_doc
+mv doc.var tf_doc.var
+mv query tf_query
+mv query.var tf_query.var
+
+$bin/cnvrt_vec_wt dict tf_doc N_doc atc
+ln N_doc doc
+ln N_doc.var doc.var
+$bin/cnvrt_vec_wt -d tf_doc dict tf_query N_query atc
+ln N_query query
+ln N_query.var query.var
+
+
+# Create an inverted file version of the tf*idf documents
+/bin/rm -f inv inv.var
+$bin/vec_to_inv N_doc N_inv
+set nonomatch
+/bin/rm -rf N_inv*bak
+ln N_inv inv
+ln N_inv.var inv.var
+
+
+time
