@@ -244,7 +244,7 @@ class Stemmer
          if (b[k-1] != 's') k--;
       }
       if (ends("eed")) { if (m() > 0) k--; } else
-      if ((ends("ed") || ends("ing")) && vowelinstem())
+      if ((ends("ed")) && vowelinstem())
       {  k = j;
          if (ends("at")) setto("ate"); else
          if (ends("bl")) setto("ble"); else
@@ -261,7 +261,26 @@ class Stemmer
 
    /* step2() turns terminal y to i when there is another vowel in the stem. */
 
-   private final void step2() { if (ends("y") && vowelinstem()) b[k] = 'i'; }
+   private final void step2() { 
+       if(ends("ing") && vowelinstem())
+       {
+           k = j;
+         if (ends("at")) setto("ate"); else
+         if (ends("bl")) setto("ble"); else
+         if (ends("iz")) setto("ize"); else
+         if (doublec(k))
+         {  k--;
+            {  int ch = b[k];
+               if (ch == 'l' || ch == 's' || ch == 'z') k++;
+            }
+         }
+         else if (m() == 1 && cvc(k)) setto("e");
+       }
+       else
+       {
+       if (ends("y") && vowelinstem()) b[k] = 'i'; 
+       }
+   }
 
    /* step3() maps double suffices to single ones. so -ization ( = -ize plus
       -ation) maps to -ize etc. note that the string before the suffix must give

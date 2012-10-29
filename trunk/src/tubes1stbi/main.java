@@ -18,7 +18,7 @@ public class main {
         
         Stemmer s = new Stemmer();
         String tes;
-        tes="sleeping";
+        tes="playing";
         s.add(tes.toCharArray(), tes.length());
         s.stem();
         System.out.println("hasil: "+s.toString());
