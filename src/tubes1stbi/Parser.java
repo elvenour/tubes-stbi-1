@@ -17,11 +17,12 @@ import java.util.Iterator;
 public class Parser {
        
     
-    public static ArrayList<TextData> parseFile(String addr)
+    public static ArrayList<TextData> parseFile(String addr,Boolean stem)
     {
        ArrayList<TextData> tdata = new ArrayList<TextData>();
        TextData td = new TextData(0, "dummy", "dummy");
        BufferedReader r;
+       Stemmer stm = new Stemmer();
        String text = "";
        int docnum = -1;
        String title = " ";
@@ -91,11 +92,14 @@ public class Parser {
                        s = s.replaceAll(":", "");//delete colons
                        if (!s.isEmpty())
                        {
-
-//                           System.out.println(s);
+                            if(stem){
+                             stm.add(s.toCharArray(),s.length());
+                             stm.stem();
+                             s = stm.toString();
+                            }
+                            
                            if(mode == 3) //bila dalam mode memasukkan weight
                            {
-        //                           System.out.println("adding term : "+s);
                                 td.addTerm(s);
                            }
 
@@ -103,7 +107,6 @@ public class Parser {
                        }
                        
                    }
-                   //System.out.println(buffer);
                }
 
               
@@ -117,12 +120,12 @@ public class Parser {
        return tdata;
     }
     
-    public static ArrayList<TextData> parseFile(String addr, String stopwords)
+    public static ArrayList<TextData> parseFile(String addr, String stopwords, Boolean stem)
     {
         BufferedReader r;
         String text;
         ArrayList<String> stops;
-        ArrayList<TextData> tdata = parseFile(addr);
+        ArrayList<TextData> tdata = parseFile(addr,stem);
 
         try{
             r = new BufferedReader(new FileReader(new File(stopwords)));
@@ -156,7 +159,7 @@ public class Parser {
         return tdata;
     }
     public static void main (String[] args){
-        ArrayList<TextData> zenki = Parser.parseFile("testcase/adi/adi.all","testcase/stopwords/english");
+        ArrayList<TextData> zenki = Parser.parseFile("testcase/adi/adi.all","testcase/stopwords/english",true);
         zenki.get(0).printData();
     }
 }
