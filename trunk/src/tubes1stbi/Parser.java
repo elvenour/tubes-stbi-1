@@ -42,12 +42,10 @@ public class Parser {
                
                 if(coba[0].equals(".I"))
                {
-//                   System.out.println("mode 0");
+
 //                  System.out.println("Text Number : "+coba[1]); 
                    if (docnum > 0) {
-//                       System.out.println("roar!");
                        tdata.add(td); 
-//                       td.printData();
                    }
                    mode = 0;
                    docnum = Integer.parseInt(coba[1]);
@@ -63,7 +61,7 @@ public class Parser {
                {
 //                   System.out.println("mode 2");
 //                   System.out.println("Author : ");
-//                 // title disimpan terlebih dahulu, lalu dikosongkan untuk menampung author
+                 // title disimpan terlebih dahulu, lalu dikosongkan untuk menampung author
                    title = buffer;
                    buffer = "";
                    mode = 2;
@@ -85,13 +83,24 @@ public class Parser {
 //                   System.out.println("banyak kata : "+coba.length);
                    for(String s : coba)
                    {
-                       if(mode == 3) //bila dalam mode memasukkan weight
+                       s = s.replaceAll("\\s", "");//delete whitespaces
+                       s = s.replaceAll("\\.", "");//delete periods
+                       s = s.replaceAll(",", "");//delete commas
+                       s = s.replaceAll(";", "");//delete semicolons
+                       s = s.replaceAll(":", "");//delete colons
+                       if (!s.isEmpty())
                        {
-//                           System.out.println("adding term : "+s);
-                           td.addTerm(s);
+
+//                           System.out.println(s);
+                           if(mode == 3) //bila dalam mode memasukkan weight
+                           {
+        //                           System.out.println("adding term : "+s);
+                                td.addTerm(s);
+                           }
+
+                                buffer+=" "+s;                       
                        }
-                           buffer+=" "+s;                       
-                      
+                       
                    }
                    //System.out.println(buffer);
                }

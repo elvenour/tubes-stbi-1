@@ -11,7 +11,7 @@ package tubes1stbi;
 public class RawTF {
             
         String term;
-        int freq;
+        Integer freq;
         
         public RawTF(String t, int f)
         {
@@ -19,17 +19,17 @@ public class RawTF {
         }
                 
         @Override
-        public boolean equals(Object in)
+        public boolean equals(Object in) //kalau freq > 0, akan dibandingkan beserta frekuensinya, kalau <= 0, hanya membandingkan isi string
         {
             if(in == null){
                 return false;
-            }else if(in instanceof RawTF){
+            }else if(in instanceof RawTF){                
                 RawTF r = (RawTF) in;
-                return term == r.term && freq == r.freq;
-            }
-            else if(in instanceof String){
-                String r = (String) in;
-                return term.equals(r);
+/*                if(term.equals(r.term)){
+                    System.out.println("got a same string! It's a "+r.term);
+                }
+                */
+                  return term.equals(r.term);
             }
             else{return false;}
         }

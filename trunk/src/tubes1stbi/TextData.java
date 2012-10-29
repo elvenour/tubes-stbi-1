@@ -25,16 +25,21 @@ public class TextData {
         }
         
         
-        
         public void addTerm(String t)
         {
-           if(!weight.contains(t)) {
-               System.out.println("new term, "+t);
+            //perbandingan tipe RawTF hanya melihat string, tanpa frekuensi
+            
+//            System.out.println("compared string : "+t+", forecast : "+weight.contains(new RawTF(t,1)));
+           if(weight.contains(new RawTF(t,1)) == false) {
+//               System.out.println("new term, "+t);  
                weight.add(new RawTF(t, 1));
            }
            else {
-               System.out.println("old term, "+t+". total weight "+(weight.get(weight.lastIndexOf(t)).freq));
-               weight.get(weight.lastIndexOf(t)).freq++;
+               int i = weight.lastIndexOf(new RawTF(t,1));
+//               System.out.println("old term, "+t+". index  :"+weight.get(i).freq);
+//               System.out.println("old frequency : "+weight.get(weight.lastIndexOf(t)).freq);
+               weight.get(i).freq++;
+//                System.out.println("new frequency : "+weight.get(i).freq);
            }
         }
         
