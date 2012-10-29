@@ -8,6 +8,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  *
@@ -115,8 +116,47 @@ public class Parser {
 //        System.out.println("size tdata : "+tdata.size());
        return tdata;
     }
+    
+    public static ArrayList<TextData> parseFile(String addr, String stopwords)
+    {
+        BufferedReader r;
+        String text;
+        ArrayList<String> stops;
+        ArrayList<TextData> tdata = parseFile(addr);
+
+        try{
+            r = new BufferedReader(new FileReader(new File(stopwords)));
+            stops = new ArrayList<String>();
+            //bentuk arraylist stopwords
+            while((text = r.readLine()) != null){
+                stops.add(text);
+            }
+            
+            //lakukan stopword removal      
+            for(TextData td : tdata) //untuk tiap dokumen yang ada
+            {
+//                System.out.println("doc : "+td.docnum);
+                Iterator<RawTF> itx = td.weight.iterator();
+                while(itx.hasNext())
+                {
+                    RawTF rtf = itx.next();
+                    if(stops.contains(rtf.term))
+                    {
+//                        System.out.println("stopword term found : "+rtf.term);
+                        itx.remove();
+                    }
+                }
+            }
+        }
+        catch(Exception e){
+        
+        }
+        
+        
+        return tdata;
+    }
     public static void main (String[] args){
-        ArrayList<TextData> zenki = Parser.parseFile("testcase/adi/adi.all");
+        ArrayList<TextData> zenki = Parser.parseFile("testcase/adi/adi.all","testcase/stopwords/english");
         zenki.get(0).printData();
     }
 }
