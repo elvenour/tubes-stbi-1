@@ -19,7 +19,8 @@ public class rf {
         WeightTable = new ArrayList<Row>();
         ListTermInQuery = new ArrayList<String>();
     }
-    
+
+    /*
     public void createWeightTable(ArrayList<TextData> InvFile) {
         for (int i = 0; i < InvFile.size(); i++) {
             String nodoc = Integer.toString(InvFile.get(i).docnum);
@@ -45,6 +46,7 @@ public class rf {
             WeightTable.add(r);
         }
     }
+    */
     
     public void createWeightTable(InvertedFile InvFile) {
         // mendaftarkan semua dokumen yang ada
@@ -270,35 +272,6 @@ public class rf {
     
     public static void main(String args[]) {
         rf a = new rf();
-        
-        // test createWeightTable
-        InvertedFile in = new InvertedFile();
-        ArrayList<TextData> arr = new ArrayList<TextData>();
-        
-        TextData text = new TextData(1, "Daniel", "wkwk");
-        Bobot b = new Bobot("sleep", 0.35);
-        text.weight.add(b);
-        b = new Bobot("eat", 0.5);
-        text.weight.add(b);
-        b = new Bobot("drink", 0.75);
-        text.weight.add(b);
-        
-        
-        text = new TextData(2, "Ricardo", "huahahaha");
-        b = new Bobot("sleep", 0.1);
-        text.weight.add(b);
-        b = new Bobot("eat", 0.9);
-        text.weight.add(b);
-        b = new Bobot("drink", 0.77);
-        text.weight.add(b);
-        
-        text = new TextData(3, "Eric", "fufufu");
-        b = new Bobot("sleep", 0.2);
-        text.weight.add(b);
-        b = new Bobot("eat", 0.999);
-        text.weight.add(b);
-        b = new Bobot("drink", 0.98);
-        text.weight.add(b);
         
         
         
