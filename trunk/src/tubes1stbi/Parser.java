@@ -85,6 +85,10 @@ public class Parser {
 //                   System.out.println("banyak kata : "+coba.length);
                    for(String s : coba)
                    {
+                       if(mode == 3) //bila dalam mode memasukkan weight, selamatkan dulu isi dokumennya.
+                           {
+                                td.doctext.add(s);
+                           }
                        s = s.replaceAll("\\s", "");//delete whitespaces
                        s = s.replaceAll("\\.", "");//delete periods
                        s = s.replaceAll(",", "");//delete commas
