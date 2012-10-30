@@ -4,7 +4,9 @@
  */
 package tubes1stbi;
 
+import java.io.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.StringTokenizer;
 
 /**
@@ -117,7 +119,7 @@ public class rf {
         }
         
         return Math.sqrt(penyebut);
-    } 
+    }
     
     public ArrayList<String> firstPhaseRetrieval(String kodequery, String kodedokumen) {
         ArrayList<Double> Similarity = new ArrayList<Double>();
@@ -291,7 +293,29 @@ public class rf {
         return Hasil;
     }
     
-    public void hitungQuery(String query, String kode, InvertedFile inv) {
+    public ArrayList<String> removeStopword(ArrayList<String> input, String stopword) throws FileNotFoundException, IOException {
+        BufferedReader r;
+        String text;
+        ArrayList<String> stops;
+        ArrayList<String> Hasil = new ArrayList<String>();
+        
+        r = new BufferedReader(new FileReader(new File(stopword)));
+        stops = new ArrayList<String>();
+        //bentuk arraylist stopwords
+        while((text = r.readLine()) != null){
+            stops.add(text);
+        }
+        
+        for(int i = 0; i < input.size(); i++) { //untuk tiap dokumen yang ada
+            if (stops.contains(input.get(i)) == false) {
+                Hasil.add(input.get(i));
+            }
+        }
+        
+        return Hasil;
+    }
+    
+    public void hitungQuery(String query, String kode, InvertedFile inv, boolean stopword, boolean stem, String StopwordFile) throws FileNotFoundException, IOException {
         // Tokenization
         StringTokenizer st = new StringTokenizer(query);
         while (st.hasMoreTokens()) {
@@ -299,14 +323,19 @@ public class rf {
         }
         
         // Hilangkan stopword
+        if (stopword == true) {
+            ListTermInQuery = removeStopword(ListTermInQuery, StopwordFile);
+        }
         
         // Stemming
-        Stemmer s = new Stemmer();
-        for (int i = 0; i < ListTermInQuery.size(); i++) {
-            s.add(ListTermInQuery.get(i).toCharArray(), ListTermInQuery.get(i).length());
-            s.stem();
-            ListTermInQuery.remove(i);
-            ListTermInQuery.add(i, s.toString());
+        if (stem == true) {
+            Stemmer s = new Stemmer();
+            for (int i = 0; i < ListTermInQuery.size(); i++) {
+                s.add(ListTermInQuery.get(i).toCharArray(), ListTermInQuery.get(i).length());
+                s.stem();
+                ListTermInQuery.remove(i);
+                ListTermInQuery.add(i, s.toString());
+            }
         }
         
         // Hitung bobot
@@ -344,20 +373,20 @@ public class rf {
         WeightTable.add(0, r);
     }
     
-    public static void main(String args[]) {
+    public static void main(String args[]) throws FileNotFoundException, IOException {
         rf a = new rf();
         
         ArrayList<TextData> zenki = Parser.parseFile("testcase/adi/adi.all","testcase/stopwords/english",true);
         InvertedFile chaos = new InvertedFile(zenki);
         chaos.countInvertedFile(1,1);
         
-        a.hitungQuery("ibm maintain", "ltn", chaos);
+        a.hitungQuery("ibm maintain too", "ltn", chaos, true, true, "testcase/stopwords/english");
         a.createWeightTable(chaos);
         a.printWeightTable();
         
         System.out.println("===============");
         
-        ArrayList<String> OutputFirstRetrieval = a.firstPhaseRetrieval("ltn", "ltn");
+        ArrayList<String> OutputFirstRetrieval = a.firstPhaseRetrieval("ltc", "ltc");
         for (int i = 0; i < OutputFirstRetrieval.size(); i++) {
             System.out.println(OutputFirstRetrieval.get(i));
         }
@@ -374,41 +403,9 @@ public class rf {
             System.out.println(OutputSecondRetrieval.get(i));
         }
         
-        // test createWeightTable
-        /*InvertedFile in = new InvertedFile();
-        ArrayList<TextData> arr = new ArrayList<TextData>();
-        
-        TextData text = new TextData(1, "Daniel", "wkwk");
-        Bobot b = new Bobot("sleep", 0.35);
-        text.weight.add(b);
-        b = new Bobot("eat", 0.5);
-        text.weight.add(b);
-        b = new Bobot("drink", 0.75);
-        text.weight.add(b);
-        arr.add(text);
-        
-        text = new TextData(2, "Ricardo", "huahahaha");
-        b = new Bobot("sleep", 0.1);
-        text.weight.add(b);
-        b = new Bobot("eat", 0.9);
-        text.weight.add(b);
-        b = new Bobot("drink", 0.77);
-        text.weight.add(b);
-        arr.add(text);
-        
-        text = new TextData(3, "Eric", "fufufu");
-        b = new Bobot("sleep", 0.2);
-        text.weight.add(b);
-        b = new Bobot("eat", 0.999);
-        text.weight.add(b);
-        b = new Bobot("drink", 0.98);
-        text.weight.add(b);
-        arr.add(text);
-        
-        in.ListOfDocument = arr;
-        
-        InvertedFileSatuan satuan = new InvertedFileSatuan("sleep", 1, 0.35);*/
-        
+        System.out.println("===============");
+        a.printWeightTable();
+
         //a.hitungQuery("sleeping eating drinking faithful beautiful", "xxx.yyy");
         
         /*ArrayList<Double> d = new ArrayList<Double>();
