@@ -116,7 +116,7 @@ public class InvertedFile {
     public static void main (String[] Args){
         ArrayList<TextData> zenki = Parser.parseFile("testcase/adi/adi.all","testcase/stopwords/english",true);
         InvertedFile chaos = new InvertedFile(zenki);
-        chaos.countInvertedFile(1,0);
+        chaos.countInvertedFile(1,1);
         chaos.printInvertedFile();
     }
 }

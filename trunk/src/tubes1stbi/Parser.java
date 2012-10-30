@@ -95,6 +95,8 @@ public class Parser {
                        s = s.replaceAll(",", "");//delete commas
                        s = s.replaceAll(";", "");//delete semicolons
                        s = s.replaceAll(":", "");//delete colons
+                        s = s.replaceAll("\\(", "");//delete (
+                         s = s.replaceAll("\\)", "");//delete )
                        if (!s.isEmpty())
                        {
                             if(stem){
