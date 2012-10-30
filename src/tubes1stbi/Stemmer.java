@@ -4,6 +4,8 @@
  */
 package tubes1stbi;
 
+
+
 /**
  *
  * @author d_frEak
@@ -278,7 +280,7 @@ class Stemmer
        }
        else
        {
-       if (ends("y") && vowelinstem()) b[k] = 'i'; 
+        if (ends("y") && vowelinstem()) b[k] = 'i'; 
        }
    }
 
@@ -329,7 +331,7 @@ class Stemmer
        case 'i': if (ends("iciti")) { r("ic"); break; }
                  break;
        case 'l': if (ends("ical")) { r("ic"); break; }
-                 if (ends("ful")) { r(""); break; }
+                 if (ends("iful")) { r("y"); break; }
                  break;
        case 's': if (ends("ness")) { r(""); break; }
                  break;
@@ -455,7 +457,7 @@ class Stemmer
       
     Stemmer s = new Stemmer();
     String tes;
-    tes="playing";
+    tes="beautiful";
     s.add(tes.toCharArray(), tes.length());
     s.stem();
     System.out.println("hasil: "+s.toString());
