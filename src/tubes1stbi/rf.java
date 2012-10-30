@@ -19,9 +19,8 @@ public class rf {
         WeightTable = new ArrayList<Row>();
         ListTermInQuery = new ArrayList<String>();
     }
-
-    /*
-    public void createWeightTable(ArrayList<TextData> InvFile) {
+    
+    /*public void createWeightTable(ArrayList<TextData> InvFile) {
         for (int i = 0; i < InvFile.size(); i++) {
             String nodoc = Integer.toString(InvFile.get(i).docnum);
             ArrayList<Double> ListTerm = new ArrayList<Double>();
@@ -45,8 +44,7 @@ public class rf {
             Row r = new Row (nodoc, ListTerm);
             WeightTable.add(r);
         }
-    }
-    */
+    }*/
     
     public void createWeightTable(InvertedFile InvFile) {
         // mendaftarkan semua dokumen yang ada
@@ -86,15 +84,61 @@ public class rf {
         }
     }
     
-    public ArrayList<String> firstPhaseRetrieval() {
+    public double countNormQuery() {
+        double penyebut = 0.0;
+        
+        for (int i = 0; i < WeightTable.get(0).Tab.size(); i++) {
+            penyebut = penyebut + WeightTable.get(0).Tab.get(i) * WeightTable.get(0).Tab.get(i);
+        }
+        
+        return Math.sqrt(penyebut);
+    }
+    
+    public double countNormDocument(String DocName) {
+        double penyebut = 0.0;
+        
+        int idx = 0;
+        boolean ketemu = false;
+        while((idx < WeightTable.size()) && (ketemu == false)) {
+            if (WeightTable.get(idx).Name.equals(DocName)) {
+                ketemu = true;
+            }
+            else {
+                ++idx;
+            }
+        }
+        
+        for (int i = 0; i < WeightTable.get(idx).Tab.size(); i++) {
+            penyebut = penyebut + WeightTable.get(idx).Tab.get(i) * WeightTable.get(idx).Tab.get(i);
+        }
+        
+        return Math.sqrt(penyebut);
+    } 
+    
+    public ArrayList<String> firstPhaseRetrieval(String kodequery, String kodedokumen) {
         ArrayList<Double> Similarity = new ArrayList<Double>();
         ArrayList<String> DocName = new ArrayList<String>();
+        
+        // parsing kodequery
+        char c1 = kodequery.charAt(2);
+        
+        // parsing kodedokumen
+        char c2 = kodedokumen.charAt(2);
         
         for (int i = 1; i < WeightTable.size(); i++) {
             double Hasil = 0.0;
             for (int j = 0; j < WeightTable.get(0).Tab.size(); j++) {
                 Hasil = Hasil + (WeightTable.get(0).Tab.get(j) * WeightTable.get(i).Tab.get(j));
             }
+            
+            if (c1 == 'c') {
+                Hasil = Hasil / countNormQuery();
+            }
+            
+            if (c2 == 'c') {
+                Hasil = Hasil / countNormDocument(WeightTable.get(i).Name);
+            }
+            
             Similarity.add(Hasil);
             DocName.add(WeightTable.get(i).Name);
         }
@@ -123,7 +167,7 @@ public class rf {
         return Ret;
     }
     
-    public ArrayList<String> secondPhaseRetrieval(ArrayList<String> Feedback, double alfa, double beta, double gamma) {
+    public ArrayList<String> secondPhaseRetrieval(ArrayList<String> Feedback, double alfa, double beta, double gamma, String kodequery, String kodedokumen) {
         // Terapkan Rocchio Method
         for (int i = 0; i < WeightTable.get(0).Tab.size(); i++) {
             //System.out.println(i);
@@ -154,7 +198,36 @@ public class rf {
             WeightTable.get(0).Tab.add(i, QueryNew);
         }
         
-        return (firstPhaseRetrieval());
+        return (firstPhaseRetrieval(kodequery, kodedokumen));
+    }
+    
+    public ArrayList<Pair> countIDF(int jenis, ArrayList<Pair> query, InvertedFile inv) {
+        ArrayList<Pair> Hasil = new ArrayList<Pair>();
+        
+        for (int i = 0; i < query.size(); i++) {
+            String name = query.get(i).Name;
+            double idf = 0.0;
+            
+            if (jenis == 1) { // pakai IDF
+                int j = 0;
+                boolean cek = false;
+                while ((j < inv.Inverted.size()) && (cek == false)) {
+                    if (inv.Inverted.get(j).Term.equals(name)) {
+                        cek = true;
+                        idf = inv.Inverted.get(j).IDF;
+                    }
+                    ++j;
+                }
+            }
+            else { // nggak pake IDF
+                idf = 1.0;
+            }
+            
+            Pair p = new Pair(name, idf);
+            Hasil.add(p);
+        }
+        
+        return Hasil;
     }
     
     public ArrayList<Pair> countTF(int jenis, ArrayList<String> query) {
@@ -214,7 +287,7 @@ public class rf {
         return Hasil;
     }
     
-    public void hitungQuery(String query, String kode) {
+    public void hitungQuery(String query, String kode, InvertedFile inv) {
         // Tokenization
         StringTokenizer st = new StringTokenizer(query);
         while (st.hasMoreTokens()) {
@@ -250,30 +323,60 @@ public class rf {
         ArrayList<Pair> ArrayIDF = new ArrayList<Pair>();
         char idf = kode.charAt(1);
         if (idf == 't') { // menggunakan idf
-            
+            ArrayIDF = countIDF(1, ArrayTF, inv);
         }
         else { // tidak menggunakan idf
-            
-        }
-        
-        // Normalisasi
-        char norm = kode.charAt(2);
-        if (norm == 'c') { // menggunakan normalisasi
-            
-        }
-        else { // tidak menggunakan normalisasi
-            
+            ArrayIDF = countIDF(0, ArrayTF, inv);
         }
         
         // Tambahkan bobot query pada elemen pertama WeightTable
         ArrayList<Double> BobotQuery = new ArrayList<Double>();
-        //Row r = new Row("Q", );
+        
+        for (int i = 0; i < ArrayTF.size(); i++) {
+            BobotQuery.add(ArrayTF.get(i).tf * ArrayIDF.get(i).tf);
+        }
+        
+        Row r = new Row("Q", BobotQuery);
+        WeightTable.add(0, r);
     }
     
     public static void main(String args[]) {
         rf a = new rf();
         
+        // test createWeightTable
+        /*InvertedFile in = new InvertedFile();
+        ArrayList<TextData> arr = new ArrayList<TextData>();
         
+        TextData text = new TextData(1, "Daniel", "wkwk");
+        Bobot b = new Bobot("sleep", 0.35);
+        text.weight.add(b);
+        b = new Bobot("eat", 0.5);
+        text.weight.add(b);
+        b = new Bobot("drink", 0.75);
+        text.weight.add(b);
+        arr.add(text);
+        
+        text = new TextData(2, "Ricardo", "huahahaha");
+        b = new Bobot("sleep", 0.1);
+        text.weight.add(b);
+        b = new Bobot("eat", 0.9);
+        text.weight.add(b);
+        b = new Bobot("drink", 0.77);
+        text.weight.add(b);
+        arr.add(text);
+        
+        text = new TextData(3, "Eric", "fufufu");
+        b = new Bobot("sleep", 0.2);
+        text.weight.add(b);
+        b = new Bobot("eat", 0.999);
+        text.weight.add(b);
+        b = new Bobot("drink", 0.98);
+        text.weight.add(b);
+        arr.add(text);
+        
+        in.ListOfDocument = arr;
+        
+        InvertedFileSatuan satuan = new InvertedFileSatuan("sleep", 1, 0.35);*/
         
         //a.hitungQuery("sleeping eating drinking faithful beautiful", "xxx.yyy");
         
