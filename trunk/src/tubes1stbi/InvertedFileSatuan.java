@@ -12,12 +12,14 @@ public class InvertedFileSatuan {
     public String Term;
     public int NoDokumen;
     public int DF;
+    public int IDF;
     public double Weight;
     
-    public InvertedFileSatuan(String t, int n, int d, double w) {
+    public InvertedFileSatuan(String t, int n, int d, int i, double w) {
         Term = t;
         NoDokumen = n;
         DF = d;
+        IDF = i;
         Weight = w;
     }
     

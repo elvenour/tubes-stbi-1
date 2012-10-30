@@ -60,6 +60,7 @@ public class TextData {
         public double countLogTF (int index) // index of term
         {
             double tf = 0;
+            
             return tf;
         }
         
