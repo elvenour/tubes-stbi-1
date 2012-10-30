@@ -161,5 +161,6 @@ public class Parser {
     public static void main (String[] args){
         ArrayList<TextData> zenki = Parser.parseFile("testcase/adi/adi.all","testcase/stopwords/english",true);
         zenki.get(0).printData();
+        System.out.println(zenki.get(0).weight.indexOf(new RawTF("aquila",1)));
     }
 }

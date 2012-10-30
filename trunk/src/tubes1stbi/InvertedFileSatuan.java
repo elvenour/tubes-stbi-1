@@ -11,13 +11,15 @@ package tubes1stbi;
 public class InvertedFileSatuan {
     public String Term;
     public int NoDokumen;
+    public int RTF;
     public int DF;
-    public int IDF;
+    public double IDF;
     public double Weight;
     
-    public InvertedFileSatuan(String t, int n, int d, int i, double w) {
+    public InvertedFileSatuan(String t, int n, int r, int d, double i, double w) {
         Term = t;
         NoDokumen = n;
+        RTF = r;
         DF = d;
         IDF = i;
         Weight = w;

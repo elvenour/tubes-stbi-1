@@ -58,21 +58,48 @@ public class TextData {
         }
         
         public double countLogTF (int index) // index of term
-        {
-            double tf = 0;
-            
-            return tf;
+        {            
+            return (1.0 + Math.log10(weight.get(index).freq));
         }
         
+        public double countLogTF (String term) //term 
+        {            
+            return countLogTF(weight.indexOf(term));
+        }
+                
         public double countBinTF (int index) // index of term
         {
-            double tf = 0;
+            double tf = 0.0;
+            //kalau indeksnya dibawah jumlah weight, berarti pasti ada.
+            if(weight.size() > index) tf = 1.0;
             return tf;
         }
         
-         public double countAugTF (int index) // index of term
+        public double countBinTF (String term) // index of term
         {
-            double tf = 0;
+            double tf = 0.0;
+            //kalau ada
+            if(weight.indexOf(term) > -1) tf = 1.0;
             return tf;
         }
+        
+        public double countAugTF (int index) // index of term
+        {            
+            return 0.5 + (0.5 * weight.get(index).freq / countMaxTF());
+        }
+        
+        public double countAugTF (String term)
+        {
+            return countAugTF(weight.indexOf(term));
+        }
+        
+         public int countMaxTF()
+         {
+             int maxtf = 0;
+             for(RawTF r : weight)
+             {
+                 if(maxtf < r.freq) maxtf = r.freq;
+             }
+             return maxtf;
+         }
 }
