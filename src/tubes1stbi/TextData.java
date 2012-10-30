@@ -15,6 +15,7 @@ public class TextData {
         String title;
         String author;
         ArrayList<RawTF> weight;
+        ArrayList<String> doctext; //isi dokumen
         
         public TextData(int d, String t, String a)
         {
@@ -22,6 +23,7 @@ public class TextData {
             title = t;
             author = a;
             weight = new ArrayList<RawTF>();
+            doctext = new ArrayList<String>();
         }
         
         
