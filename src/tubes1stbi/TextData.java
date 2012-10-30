@@ -59,6 +59,13 @@ public class TextData {
             
         }
         
+        public void printDocText()
+        {
+            for(String s : doctext)
+            {
+                System.out.println(s);
+            }
+        }
         public double countLogTF (int index) // index of term
         {            
             return (1.0 + Math.log10(weight.get(index).freq));

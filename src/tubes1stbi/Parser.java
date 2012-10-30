@@ -83,12 +83,13 @@ public class Parser {
                {
 //                   System.out.println("buffering");
 //                   System.out.println("banyak kata : "+coba.length);
+                   if(mode == 3) //bila dalam mode memasukkan weight, selamatkan dulu isi dokumennya.
+                           {
+                                td.doctext.add(text);
+                           }
                    for(String s : coba)
                    {
-                       if(mode == 3) //bila dalam mode memasukkan weight, selamatkan dulu isi dokumennya.
-                           {
-                                td.doctext.add(s);
-                           }
+                       
                        s = s.replaceAll("\\s", "");//delete whitespaces
                        s = s.replaceAll("\\.", "");//delete periods
                        s = s.replaceAll(",", "");//delete commas
@@ -165,6 +166,7 @@ public class Parser {
     public static void main (String[] args){
         ArrayList<TextData> zenki = Parser.parseFile("testcase/adi/adi.all","testcase/stopwords/english",true);
         zenki.get(0).printData();
-        System.out.println(zenki.get(0).weight.indexOf(new RawTF("aquila",1)));
+        zenki.get(0).printDocText();
+        //System.out.println(zenki.get(0).weight.indexOf(new RawTF("aquila",1)));
     }
 }
