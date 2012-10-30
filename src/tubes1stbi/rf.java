@@ -55,7 +55,7 @@ public class rf {
         }
         
         // Memasukkan weight dari tiap term
-        for (int i = 0; i < WeightTable.size(); i++) {
+        for (int i = 1; i < WeightTable.size(); i++) {
             ArrayList<Double> arr = new ArrayList<Double>();
             for (int j = 0; j < ListTermInQuery.size(); j++) {
                 int k = 0;
@@ -66,6 +66,10 @@ public class rf {
                         arr.add(InvFile.Inverted.get(k).Weight);
                     }
                     ++k;
+                }
+                
+                if (ketemu == false) {
+                    arr.add(0.0);
                 }
             }
             Row r = new Row (WeightTable.get(i).Name, arr);
@@ -342,6 +346,33 @@ public class rf {
     
     public static void main(String args[]) {
         rf a = new rf();
+        
+        ArrayList<TextData> zenki = Parser.parseFile("testcase/adi/adi.all","testcase/stopwords/english",true);
+        InvertedFile chaos = new InvertedFile(zenki);
+        chaos.countInvertedFile(1,1);
+        
+        a.hitungQuery("ibm maintain", "ltn", chaos);
+        a.createWeightTable(chaos);
+        a.printWeightTable();
+        
+        System.out.println("===============");
+        
+        ArrayList<String> OutputFirstRetrieval = a.firstPhaseRetrieval("ltn", "ltn");
+        for (int i = 0; i < OutputFirstRetrieval.size(); i++) {
+            System.out.println(OutputFirstRetrieval.get(i));
+        }
+        
+        System.out.println("===============");
+        
+        ArrayList<String> Feedback = new ArrayList<String>();
+        Feedback.add("1");
+        Feedback.add("37");
+        Feedback.add("48");
+        Feedback.add("69");
+        ArrayList<String> OutputSecondRetrieval = a.secondPhaseRetrieval(Feedback, 1.0, 1.0, 1.0, "ltn", "ltn");
+        for (int i = 0; i < OutputSecondRetrieval.size(); i++) {
+            System.out.println(OutputSecondRetrieval.get(i));
+        }
         
         // test createWeightTable
         /*InvertedFile in = new InvertedFile();
