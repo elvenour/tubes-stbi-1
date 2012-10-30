@@ -23,7 +23,7 @@ public class InvertedFile {
         for (int i = 0; i < ListOfDocument.size(); i++) {
             int no = ListOfDocument.get(i).docnum;
             for (int j = 0; j < ListOfDocument.get(i).weight.size(); j++) {
-                InvertedFileSatuan wew = new InvertedFileSatuan(ListOfDocument.get(i).weight.get(j).term, no, ListOfDocument.get(i).weight.get(j).freq); // diganti lagi weightnya
+                
             }
         }
         
