@@ -1,12 +1,10 @@
 
-import tubes1stbi.Browse;
-import tubes1stbi.RetrieveResult;
-import tubes1stbi.TFoption;
 
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+package tubes1stbi;
 
 /**
  *
@@ -294,8 +292,8 @@ public class STBIframe extends javax.swing.JFrame {
     }//GEN-LAST:event_BrowseDocActionPerformed
 
     private void RetrieveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RetrieveActionPerformed
- RetrieveResult st = new RetrieveResult();
-        st.setVisible(true);
+// RetrieveResult st = new RetrieveResult();
+//        st.setVisible(true);
         // TODO add your handling code here:
     }//GEN-LAST:event_RetrieveActionPerformed
 
