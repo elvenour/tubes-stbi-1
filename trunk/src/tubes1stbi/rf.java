@@ -393,6 +393,10 @@ public class rf {
         InvertedFile chaos = new InvertedFile(zenki);
         chaos.countInvertedFile(1,1);
         
+        /*InvertedFile chaos = new InvertedFile();
+        chaos.loadInvertedFile();
+        chaos.loadListOfDocument();*/
+        
         a.hitungQuery("ibm maintain too", "bnn", chaos, true, true, "testcase/stopwords/english");
         a.createWeightTable(chaos);
         a.printWeightTable();

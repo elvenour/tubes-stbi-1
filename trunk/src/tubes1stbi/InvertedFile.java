@@ -4,6 +4,7 @@
  */
 package tubes1stbi;
 
+import java.io.*;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -113,10 +114,140 @@ public class InvertedFile {
         // sort       
     }
     
+    public void saveInvertedFile() {
+        String filename = "InvertedFile.txt";
+        String content = "";
+        
+        // ubah inverted file ke content
+        for (int i = 0; i< Inverted.size(); i++) {
+            if (i == 0) {
+                content = content + Inverted.get(i).Term + " " + Inverted.get(i).NoDokumen + " " + Inverted.get(i).DF + " " + Inverted.get(i).IDF + " " + Inverted.get(i).RTF + " " + Inverted.get(i).Weight;
+            }
+            else {
+                content = content + "\n" + Inverted.get(i).Term + " " + Inverted.get(i).NoDokumen + " " + Inverted.get(i).DF + " " + Inverted.get(i).IDF + " " + Inverted.get(i).RTF + " " + Inverted.get(i).Weight;
+            }
+        }
+        
+        try {
+            BufferedWriter out = new BufferedWriter(new FileWriter(filename));
+            out.write(content);
+            out.close();
+        } catch (IOException e) {
+        }
+    }
+    
+    public void saveListOfDocument() {
+        String filename = "ListOfDocument.txt";
+        String content = "";
+        
+        for (int i = 0; i < ListOfDocument.size(); i++) {
+            if (i == 0) {
+                content = content + ListOfDocument.get(i).docnum;
+            }
+            else {
+                content = content + "\n" + ListOfDocument.get(i).docnum;
+            }
+        }
+        
+        try {
+            BufferedWriter out = new BufferedWriter(new FileWriter(filename));
+            out.write(content);
+            out.close();
+        } catch (IOException e) {
+        }
+    }
+    
+    public void loadInvertedFile() {
+        String filename = "InvertedFile.txt";
+        Inverted = new ArrayList<InvertedFileSatuan>();
+        
+        try {
+            BufferedReader in = new BufferedReader(new FileReader(filename));
+            String str;
+            while ((str = in.readLine()) != null) {
+                // parsing
+                String temp = "";
+                while (str.charAt(0) != ' ') {
+                    temp = temp + str.charAt(0);
+                    str = str.substring(1);
+                }
+                str = str.substring(1);
+                String Term = temp;
+                temp = "";
+                
+                while (str.charAt(0) != ' ') {
+                    temp = temp + str.charAt(0);
+                    str = str.substring(1);
+                }
+                str = str.substring(1);
+                int no = Integer.parseInt(temp);
+                temp = "";
+                
+                while (str.charAt(0) != ' ') {
+                    temp = temp + str.charAt(0);
+                    str = str.substring(1);
+                }
+                str = str.substring(1);
+                int df = Integer.parseInt(temp);
+                temp = "";
+                
+                while (str.charAt(0) != ' ') {
+                    temp = temp + str.charAt(0);
+                    str = str.substring(1);
+                }
+                str = str.substring(1);
+                double idf = Double.parseDouble(temp);
+                temp = "";
+                
+                while (str.charAt(0) != ' ') {
+                    temp = temp + str.charAt(0);
+                    str = str.substring(1);
+                }
+                str = str.substring(1);
+                int rtf = Integer.parseInt(temp);
+                temp = "";
+                
+                while (!str.equals("")) {
+                    temp = temp + str.charAt(0);
+                    str = str.substring(1);
+                }
+                double weight = Double.parseDouble(temp);
+
+                InvertedFileSatuan sat = new InvertedFileSatuan(Term, no, rtf, df, idf, weight);
+                Inverted.add(sat);
+            }
+            in.close();
+        } catch (IOException e) {
+        }
+    }
+    
+    public void loadListOfDocument() {
+        String filename = "ListOfDocument.txt";
+        
+        try {
+            BufferedReader in = new BufferedReader(new FileReader(filename));
+            String str;
+            while ((str = in.readLine()) != null) {
+                int no = Integer.parseInt(str);
+                TextData td = new TextData(no, "", "");
+                ListOfDocument.add(td);
+            }
+            in.close();
+        } catch (IOException e) {
+        }
+    }
+    
     public static void main (String[] Args){
         ArrayList<TextData> zenki = Parser.parseFile("testcase/adi/adi.all","testcase/stopwords/english",true);
         InvertedFile chaos = new InvertedFile(zenki);
-        chaos.countInvertedFile(1,1);
+        /*chaos.countInvertedFile(1,1);
+        chaos.printInvertedFile();*/
+        
+        /*chaos.saveInvertedFile();
+        chaos.saveListOfDocument();*/
+        
+        chaos.loadInvertedFile();
+        chaos.loadListOfDocument();
         chaos.printInvertedFile();
     }
 }
