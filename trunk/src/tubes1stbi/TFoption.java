@@ -4,6 +4,9 @@
  */
 
 package tubes1stbi;
+
+import java.util.ArrayList;
+
 /**
  *
  * @author Elfino
@@ -15,6 +18,7 @@ public class TFoption extends javax.swing.JFrame {
      */
     public TFoption() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -361,6 +365,14 @@ public class TFoption extends javax.swing.JFrame {
         }
         
         
+        ArrayList<String> Feedback = new ArrayList<String>();
+        Feedback.add("1");
+        Feedback.add("37");
+        Feedback.add("48");
+        Feedback.add("69");
+        
+        feedback tes=new feedback(Feedback);
+        tes.setVisible(true);
     }//GEN-LAST:event_OkActionPerformed
 
     /**
