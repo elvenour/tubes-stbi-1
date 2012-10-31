@@ -388,27 +388,27 @@ public class rf {
     
     public static void main(String args[]) throws FileNotFoundException, IOException {
         rf a = new rf();
-        
+//        browser 
         ArrayList<TextData> zenki = Parser.parseFile("testcase/adi/adi.all","testcase/stopwords/english",true);
         InvertedFile chaos = new InvertedFile(zenki);
         chaos.countInvertedFile(1,1);
-        
+//        
         /*InvertedFile chaos = new InvertedFile();
         chaos.loadInvertedFile();
         chaos.loadListOfDocument();*/
         
         a.hitungQuery("ibm maintain too", "bnn", chaos, true, true, "testcase/stopwords/english");
         a.createWeightTable(chaos);
-        a.printWeightTable();
-        
-        System.out.println("===============");
-        
+//        a.printWeightTable();
+//        
+//        System.out.println("===============");
+//        
         ArrayList<String> OutputFirstRetrieval = a.firstPhaseRetrieval("ltc", "ltc");
-        for (int i = 0; i < OutputFirstRetrieval.size(); i++) {
-            System.out.println(OutputFirstRetrieval.get(i));
-        }
-        
-        System.out.println("===============");
+//        for (int i = 0; i < OutputFirstRetrieval.size(); i++) {
+//            System.out.println(OutputFirstRetrieval.get(i));
+//        }
+//        
+//        System.out.println("===============");
         
         ArrayList<String> Feedback = new ArrayList<String>();
         Feedback.add("1");
@@ -416,12 +416,12 @@ public class rf {
         Feedback.add("48");
         Feedback.add("69");
         ArrayList<String> OutputSecondRetrieval = a.secondPhaseRetrieval(Feedback, 1.0, 1.0, 1.0, "ltn", "ltn");
-        for (int i = 0; i < OutputSecondRetrieval.size(); i++) {
-            System.out.println(OutputSecondRetrieval.get(i));
-        }
-        
-        System.out.println("===============");
-        a.printWeightTable();
+//        for (int i = 0; i < OutputSecondRetrieval.size(); i++) {
+//            System.out.println(OutputSecondRetrieval.get(i));
+//        }
+//        
+//        System.out.println("===============");
+//        a.printWeightTable();
 
         //a.hitungQuery("sleeping eating drinking faithful beautiful", "xxx.yyy");
         

@@ -4,12 +4,15 @@
  */
 package tubes1stbi;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author d_frEak
  */
 public class Setting {
 
+    public ArrayList<String> fb=null;
     
     public static int stopwordNo=0;
     public static int stopwordYes=1;
@@ -70,5 +73,81 @@ public class Setting {
         return set;
     }
     
+    public String getCodeQuery()
+    {
+        String retval="";
+        
+        if(QueryTf==queryTfBinary)
+        {
+            retval+="b";
+        }
+        else if(QueryTf==queryTfLogaritmik)
+        {
+            retval+="l";
+        }
+        else
+        {
+            retval+="a";
+        }
+        
+        if(QueryIdf==queryIdfYes)
+        {
+            retval+="t";
+        }
+        else
+        {
+            retval+="n";
+        }
+        
+        if(QueryNormalisasi==queryNormalisasiYes)
+        {
+            retval+="c";
+        }
+        else
+        {
+            retval+="n";
+        }
+                
+        return retval;
+    }
+    
+    
+    public String getCodeDocument()
+    {
+        String retval="";
+        
+        if(DocumentTf==documentTfBinary)
+        {
+            retval+="b";
+        }
+        else if(DocumentTf==documentTfLogaritmik)
+        {
+            retval+="l";
+        }
+        else
+        {
+            retval+="a";
+        }
+        
+        if(DocumentIdf==documentIdfYes)
+        {
+            retval+="t";
+        }
+        else
+        {
+            retval+="n";
+        }
+        
+        if(DocumentNormalisasi==documentNormalisasiYes)
+        {
+            retval+="c";
+        }
+        else
+        {
+            retval+="n";
+        }
+                
+        return retval;
+    }
     
 }
