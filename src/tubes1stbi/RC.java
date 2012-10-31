@@ -170,7 +170,9 @@ public class RC {
         return (pembilang / (float)penyebut);
     }
     
-    public void printOutput() {
+    public String printOutput() {
+        String hasil = "";
+        
         ArrayList<Integer> ListQuery = new ArrayList<Integer>();
         for (int i = 0; i < ArrRetrievalResult.size(); i++) {
             if (!ListQuery.contains(ArrRetrievalResult.get(i).noquery)) {
@@ -179,41 +181,44 @@ public class RC {
         }
         
         // bikin tabel
-        System.out.println("---------------------------------------------------------------------------");
-        System.out.println("| Nomor Query | Recall   | Precision | Non Interpolated Average Precision |");
-        System.out.println("---------------------------------------------------------------------------");
+        hasil = hasil + "---------------------------------------------------------------------------\n";
+        hasil = hasil + "| Nomor Query | Recall   | Precision | Non Interpolated Average Precision |\n";
+        hasil = hasil + "---------------------------------------------------------------------------\n";
         while (!ListQuery.isEmpty()) {
             // print Nomor Query
-            System.out.print("| " + ListQuery.get(0));
+            hasil = hasil + "| " + ListQuery.get(0);
             int panjang = Integer.toString(ListQuery.get(0)).length();
             int selisih = 11 - panjang;
             for (int j = 1; j <= selisih; j++) {
-                System.out.print(" ");
+                hasil = hasil + " ";
             }
-            System.out.print(" | ");
+            hasil = hasil + " | ";
             
             // print Recall
-            System.out.format("%f", countRecall(ListQuery.get(0)));
-            System.out.print(" | ");
+            hasil = hasil + countRecall(ListQuery.get(0));
+            hasil = hasil +" | ";
             
             // print Precision
-            System.out.format("%f", countPrecision(ListQuery.get(0)));
-            System.out.print("  | ");
+            hasil = hasil + countPrecision(ListQuery.get(0));
+            hasil = hasil +"  | ";
             
             // print NIAP
-            System.out.format("%f", countNIAP(ListQuery.get(0)));
-            System.out.print("                           |");
+            hasil = hasil + countNIAP(ListQuery.get(0));
+            hasil = hasil + "                           |";
             
             // Lanjut ke ListQuery berikutnya
             ListQuery.remove(0);
-            System.out.println("");
+            hasil = hasil + "\n";
         }
+        
+        return hasil;
     }
     
     public static void main(String args[]) throws FileNotFoundException {
         RC a = new RC();
-        a.read(0,"");
-        a.read(1,"");
-        a.printOutput();
+        a.read(0,"RelevanceJudgement.txt");
+        a.read(1,"RetrievalResult.txt");
+        String hasil = a.printOutput();
+        System.out.println(hasil);
     }
 }
