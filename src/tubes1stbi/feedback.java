@@ -27,14 +27,14 @@ public class feedback extends JFrame{
     feedback(ArrayList<String> str)
     {
         position=first;
-        JTextArea area=new JTextArea();
-        area.setEnabled(false);
-        area.setBounds(position, tab, 600, 10);
+//        JTextArea area=new JTextArea();
+//        area.setEnabled(false);
+//        area.setBounds(position, tab, 600, 10);
         position+=dist;
         String tampil="File :\n";
         for(int i=0;i<str.size();i++)
         {
-            tampil+=str.get(i)+"\n";
+//            tampil+=str.get(i)+"\n";
             
             temp=new JCheckBox();
             position+=dist;
@@ -43,7 +43,7 @@ public class feedback extends JFrame{
             
             check.add(temp);
         }
-        area.setText(tampil);
+//        area.setText(tampil);
         
         
         JButton but=new JButton("OK");
@@ -60,7 +60,7 @@ public class feedback extends JFrame{
         });
         
         JPanel panel=new JPanel();
-        panel.add(area);
+//        panel.add(area);
         for(int i=0;i<check.size();i++)
         {
             panel.add(check.get(i));
@@ -69,7 +69,7 @@ public class feedback extends JFrame{
         
         
         this.add(panel);
-//        this.setLocationRelativeTo(null);
+        this.setLocationRelativeTo(null);
         this.setSize(600, 100+str.size()*50);
         this.setTitle("Feedback");
     }
@@ -89,6 +89,8 @@ public class feedback extends JFrame{
         {
             System.out.println(Setting.Singleton().fb.get(i));
         }
+        
+        
         this.dispose();
     }
     

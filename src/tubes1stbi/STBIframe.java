@@ -6,13 +6,14 @@
  */
 package tubes1stbi;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  *
@@ -33,9 +34,11 @@ public class STBIframe extends javax.swing.JFrame {
     String query;
     String ret;
     String rel;
+    String hasil;
     rf a = new rf();
     InvertedFile chaos=null;
     feedback fb=null;
+    Tampil t=null;
     /**asasdas
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -65,6 +68,7 @@ public class STBIframe extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         SearchBar = new javax.swing.JTextField();
         Retrieve = new javax.swing.JButton();
+        Hasil = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("ArkSearcher");
@@ -180,6 +184,11 @@ public class STBIframe extends javax.swing.JFrame {
         });
 
         SavePerform.setText("Save As");
+        SavePerform.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SavePerformActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -241,20 +250,32 @@ public class STBIframe extends javax.swing.JFrame {
             }
         });
 
+        Hasil.setText("Retrieve Lagi");
+        Hasil.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                HasilActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGap(35, 35, 35)
-                .addComponent(SearchBar)
-                .addGap(18, 18, 18)
-                .addComponent(Retrieve)
-                .addGap(20, 20, 20))
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel8)
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(Hasil))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(35, 35, 35)
+                        .addComponent(SearchBar)
+                        .addGap(18, 18, 18)
+                        .addComponent(Retrieve)))
+                .addGap(20, 20, 20))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -265,7 +286,9 @@ public class STBIframe extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Retrieve)
                     .addComponent(SearchBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(Hasil)
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -289,12 +312,12 @@ public class STBIframe extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(OptionButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(IndexingPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(IndexingPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(11, 11, 11)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -330,7 +353,7 @@ public class STBIframe extends javax.swing.JFrame {
             // RetrieveResult st = new RetrieveResult();
             //        st.setVisible(true);
                     
-                    a.hitungQuery("ibm maintain too", Setting.Singleton().getCodeQuery(), chaos, Setting.Singleton().getStopword(), Setting.Singleton().getStemming(), "testcase/stopwords/english");
+                    a.hitungQuery(SearchBar.getText(), Setting.Singleton().getCodeQuery(), chaos, Setting.Singleton().getStopword(), Setting.Singleton().getStemming(), "testcase/stopwords/english");
         } catch (FileNotFoundException ex) {
             Logger.getLogger(STBIframe.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -339,9 +362,19 @@ public class STBIframe extends javax.swing.JFrame {
         a.createWeightTable(chaos);
         ArrayList<String> OutputFirstRetrieval = a.firstPhaseRetrieval(Setting.Singleton().getCodeQuery(), Setting.Singleton().getCodeDocument());
 
+        String tampil="hasil pertama:\n";
+        for(int i=0;i<OutputFirstRetrieval.size();i++)
+        {
+            tampil+=OutputFirstRetrieval.get(i)+"\n";
+            System.out.println(OutputFirstRetrieval.get(i));
+        }
+       
+        t=new Tampil("hasil pertama",tampil);
+        t.setVisible(true);
+        
         fb=new feedback(OutputFirstRetrieval);
-        ArrayList<String> OutputSecondRetrieval = a.secondPhaseRetrieval(Setting.Singleton().fb, Setting.Singleton().alpha, Setting.Singleton().beta, Setting.Singleton().ganma, Setting.Singleton().getCodeQuery(), Setting.Singleton().getCodeDocument());
-
+        fb.setVisible(true);
+        
         // TODO add your handling code here:
     }//GEN-LAST:event_RetrieveActionPerformed
 
@@ -378,6 +411,7 @@ public class STBIframe extends javax.swing.JFrame {
         ArrayList<TextData> zenki = Parser.parseFile(doc,"testcase/stopwords/english",Setting.Singleton().getStemming());
         chaos = new InvertedFile(zenki);
         chaos.countInvertedFile(Setting.Singleton().DocumentTf,Setting.Singleton().DocumentIdf);
+        JOptionPane.showMessageDialog(rootPane, "Done");
     }//GEN-LAST:event_DoIndexingActionPerformed
 
     private void SaveInvertedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveInvertedActionPerformed
@@ -387,10 +421,69 @@ public class STBIframe extends javax.swing.JFrame {
     }//GEN-LAST:event_SaveInvertedActionPerformed
 
     private void CountPerformActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CountPerformActionPerformed
-        // TODO add your handling code here:
-        
+        try {
+            // TODO add your handling code here:
+            
+            RC aa = new RC();
+            aa.read(0,rel);
+            aa.read(1,ret);
+            hasil = aa.printOutput();
+            t=new Tampil("hasil", hasil);
+            t.setVisible(true);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(STBIframe.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_CountPerformActionPerformed
 
+    private void HasilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HasilActionPerformed
+        // TODO add your handling code here:
+        ArrayList<String> OutputSecondRetrieval = a.secondPhaseRetrieval(Setting.Singleton().fb, Setting.Singleton().alpha, Setting.Singleton().beta, Setting.Singleton().ganma, Setting.Singleton().getCodeQuery(), Setting.Singleton().getCodeDocument());
+
+        String tampil="hasil kedua:\n";
+        for(int i=0;i<OutputSecondRetrieval.size();i++)
+        {
+            tampil+=OutputSecondRetrieval.get(i)+"\n";
+            System.out.println(OutputSecondRetrieval.get(i));
+        }
+       
+        t=new Tampil("hasil kedua",tampil);
+        t.setVisible(true);
+    }//GEN-LAST:event_HasilActionPerformed
+
+    private void SavePerformActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SavePerformActionPerformed
+        // TODO add your handling code here:
+        
+        JFileChooser tChooser = new JFileChooser();
+//        FileNameExtensionFilter tFilter = new FileNameExtensionFilter(
+//                "Bitmap Image (*.bmp)", "bmp", "BMP");
+//        tChooser.setFileFilter(tFilter);
+        tChooser.setDialogTitle("Save Image");
+        int tOption = tChooser.showSaveDialog(this);
+        if (tOption == JFileChooser.APPROVE_OPTION) {
+            File f = tChooser.getSelectedFile();
+            save(f, hasil);
+            }
+        
+    }//GEN-LAST:event_SavePerformActionPerformed
+
+    public void save(File f, String hasil)
+    {
+          int n=0;
+          try
+          {
+              // Create file
+              FileWriter fstream = new FileWriter(f.getAbsolutePath());
+              BufferedWriter out = new BufferedWriter(fstream);
+              out.write(hasil);
+              //Close the output stream
+              out.close();
+          }
+          catch (Exception e)
+          {//Catch exception if any
+              System.err.println("Error: " + e.getMessage());
+          }
+    }
+    
     /**/
     /**
      * @param args the command line arguments
@@ -432,6 +525,7 @@ public class STBIframe extends javax.swing.JFrame {
     private javax.swing.JButton BrowseRet;
     private javax.swing.JButton CountPerform;
     private javax.swing.JButton DoIndexing;
+    private javax.swing.JButton Hasil;
     private javax.swing.JPanel IndexingPanel;
     private javax.swing.JButton OptionButton;
     private javax.swing.JButton Retrieve;

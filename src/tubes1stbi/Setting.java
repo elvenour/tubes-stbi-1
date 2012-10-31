@@ -56,17 +56,17 @@ public class Setting {
    
     Setting()
     {
-        Stopword=stopwordNo;
-        Stemming=stemmingNo;
-        QueryTf=queryTfBinary;
-        QueryIdf=queryIdfNo;
-        QueryNormalisasi=queryNormalisasiNo;
-        DocumentTf=documentTfBinary;
-        DocumentIdf=documentIdfNo;
-        DocumentNormalisasi=documentNormalisasiNo;
-        alpha=0;
-        beta=0;
-        ganma=0;
+        Stopword=stopwordYes;
+        Stemming=stemmingYes;
+        QueryTf=queryTfLogaritmik;
+        QueryIdf=queryIdfYes;
+        QueryNormalisasi=queryNormalisasiYes;
+        DocumentTf=documentTfLogaritmik;
+        DocumentIdf=documentIdfYes;
+        DocumentNormalisasi=documentNormalisasiYes;
+        alpha=1;
+        beta=1;
+        ganma=1;
     }
     
     //singleton

@@ -397,9 +397,9 @@ public class rf {
         chaos.loadInvertedFile();
         chaos.loadListOfDocument();*/
         
-        a.hitungQuery("ibm maintain too", Setting.Singleton().getCodeQuery(), chaos, Setting.Singleton().getStopword(), Setting.Singleton().getStemming(), "testcase/stopwords/english");
+        a.hitungQuery("ibm maintain", Setting.Singleton().getCodeQuery(), chaos, Setting.Singleton().getStopword(), Setting.Singleton().getStemming(), "testcase/stopwords/english");
         a.createWeightTable(chaos);
-//        a.printWeightTable();
+        a.printWeightTable();
 //        
 //        System.out.println("===============");
 //        
@@ -407,18 +407,18 @@ public class rf {
 //        for (int i = 0; i < OutputFirstRetrieval.size(); i++) {
 //            System.out.println(OutputFirstRetrieval.get(i));
 //        }
-//        
+////        
 //        System.out.println("===============");
         
-//        ArrayList<String> Feedback = new ArrayList<String>();
+        ArrayList<String> Feedback = new ArrayList<String>();
 //        Feedback.add("1");
 //        Feedback.add("37");
-//        Feedback.add("48");
-//        Feedback.add("69");
+        Feedback.add("48");
+        Feedback.add("69");
         ArrayList<String> OutputSecondRetrieval = a.secondPhaseRetrieval(Setting.Singleton().fb, Setting.Singleton().alpha, Setting.Singleton().beta, Setting.Singleton().ganma, Setting.Singleton().getCodeQuery(), Setting.Singleton().getCodeDocument());
-//        for (int i = 0; i < OutputSecondRetrieval.size(); i++) {
-//            System.out.println(OutputSecondRetrieval.get(i));
-//        }
+        for (int i = 0; i < OutputSecondRetrieval.size(); i++) {
+            System.out.println(OutputSecondRetrieval.get(i));
+        }
 //        
 //        System.out.println("===============");
 //        a.printWeightTable();
