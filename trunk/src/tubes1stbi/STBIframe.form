@@ -44,12 +44,12 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="OptionButton" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="IndexingPanel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <Component id="IndexingPanel" min="-2" pref="123" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
               <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="12" max="32767" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -86,19 +86,13 @@
                           <Group type="103" groupAlignment="1" attributes="0">
                               <Group type="102" attributes="0">
                                   <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="32767" attributes="0"/>
+                                  <EmptySpace pref="138" max="32767" attributes="0"/>
                                   <Component id="BrowseDoc" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="1" attributes="0">
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="DoIndexing" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  </Group>
+                                  <Component id="DoIndexing" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="32767" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="BrowseQuery" max="32767" attributes="0"/>
-                                      <Component id="SaveInverted" max="32767" attributes="0"/>
-                                  </Group>
+                                  <Component id="SaveInverted" min="-2" pref="75" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace min="-2" pref="68" max="-2" attributes="0"/>
@@ -122,18 +116,13 @@
                       <Component id="BrowseDoc" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                      <Component id="BrowseQuery" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace max="-2" attributes="0"/>
                   <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="7" max="32767" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="DoIndexing" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="SaveInverted" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -152,11 +141,6 @@
             <Property name="text" type="java.lang.String" value="Document Collection"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel2">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Query"/>
-          </Properties>
-        </Component>
         <Component class="javax.swing.JLabel" name="jLabel3">
           <Properties>
             <Property name="text" type="java.lang.String" value="Relevance Judgement"/>
@@ -170,20 +154,21 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BrowseDocActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="BrowseQuery">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Browse.."/>
-          </Properties>
-        </Component>
         <Component class="javax.swing.JButton" name="DoIndexing">
           <Properties>
             <Property name="text" type="java.lang.String" value="Do Indexing"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="DoIndexingActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="SaveInverted">
           <Properties>
             <Property name="text" type="java.lang.String" value="Save As"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="SaveInvertedActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -272,16 +257,25 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Browse.."/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BrowseRetActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="BrowseRelev">
           <Properties>
             <Property name="text" type="java.lang.String" value="Browse.."/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BrowseRelevActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="CountPerform">
           <Properties>
             <Property name="text" type="java.lang.String" value="Count Performance"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CountPerformActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="SavePerform">
           <Properties>

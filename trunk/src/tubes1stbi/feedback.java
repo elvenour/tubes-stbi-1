@@ -9,10 +9,7 @@ import java.awt.Checkbox;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 /**
  *
@@ -30,8 +27,15 @@ public class feedback extends JFrame{
     feedback(ArrayList<String> str)
     {
         position=first;
+        JTextArea area=new JTextArea();
+        area.setEnabled(false);
+        area.setBounds(position, tab, 600, 10);
+        position+=dist;
+        String tampil="File :\n";
         for(int i=0;i<str.size();i++)
         {
+            tampil+=str.get(i)+"\n";
+            
             temp=new JCheckBox();
             position+=dist;
             temp.setText(str.get(i));
@@ -39,6 +43,8 @@ public class feedback extends JFrame{
             
             check.add(temp);
         }
+        area.setText(tampil);
+        
         
         JButton but=new JButton("OK");
         position+=dist;
@@ -54,6 +60,7 @@ public class feedback extends JFrame{
         });
         
         JPanel panel=new JPanel();
+        panel.add(area);
         for(int i=0;i<check.size();i++)
         {
             panel.add(check.get(i));
