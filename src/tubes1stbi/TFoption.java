@@ -443,16 +443,17 @@ public class TFoption extends javax.swing.JFrame {
             Setting.Singleton().ganma=0;
         }
         
+        this.dispose();
         
         //coba2 feedback
-        ArrayList<String> Feedback = new ArrayList<String>();
-        Feedback.add("1");
-        Feedback.add("37");
-        Feedback.add("48");
-        Feedback.add("69");
-        
-        feedback tes=new feedback(Feedback);
-        tes.setVisible(true);
+//        ArrayList<String> Feedback = new ArrayList<String>();
+//        Feedback.add("1");
+//        Feedback.add("37");
+//        Feedback.add("48");
+//        Feedback.add("69");
+//        
+//        feedback tes=new feedback(Feedback);
+//        tes.setVisible(true);
     }//GEN-LAST:event_OkActionPerformed
 
     /**

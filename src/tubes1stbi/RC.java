@@ -25,13 +25,13 @@ public class RC {
         }
     }
     
-    public void read(int doc) throws FileNotFoundException {
+    public void read(int doc, String path) throws FileNotFoundException {
         FileInputStream fstream;
         if (doc == 0) { // baca RelevanceJudgement.txt
-            fstream = new FileInputStream("RelevanceJudgement.txt");
+            fstream = new FileInputStream(path);
         }
         else { // baca RetrievalResult.txt
-            fstream = new FileInputStream("RetrievalResult.txt");
+            fstream = new FileInputStream(path);
         }
         
         BufferedReader br;
@@ -212,8 +212,8 @@ public class RC {
     
     public static void main(String args[]) throws FileNotFoundException {
         RC a = new RC();
-        a.read(0);
-        a.read(1);
+        a.read(0,"");
+        a.read(1,"");
         a.printOutput();
     }
 }

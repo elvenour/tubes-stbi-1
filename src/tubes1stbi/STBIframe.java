@@ -6,6 +6,14 @@
  */
 package tubes1stbi;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
+
 /**
  *
  * @author Elfino
@@ -17,8 +25,17 @@ public class STBIframe extends javax.swing.JFrame {
      */
     public STBIframe() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
+    private File mInputFile;
+    String doc="testcase/adi/adi.all";
+    String query;
+    String ret;
+    String rel;
+    rf a = new rf();
+    InvertedFile chaos=null;
+    feedback fb=null;
     /**asasdas
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -32,10 +49,8 @@ public class STBIframe extends javax.swing.JFrame {
         IndexingPanel = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         BrowseDoc = new javax.swing.JButton();
-        BrowseQuery = new javax.swing.JButton();
         DoIndexing = new javax.swing.JButton();
         SaveInverted = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
@@ -68,8 +83,6 @@ public class STBIframe extends javax.swing.JFrame {
 
         jLabel1.setText("Document Collection");
 
-        jLabel2.setText("Query");
-
         jLabel3.setText("Relevance Judgement");
 
         BrowseDoc.setText("Browse..");
@@ -79,11 +92,19 @@ public class STBIframe extends javax.swing.JFrame {
             }
         });
 
-        BrowseQuery.setText("Browse..");
-
         DoIndexing.setText("Do Indexing");
+        DoIndexing.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DoIndexingActionPerformed(evt);
+            }
+        });
 
         SaveInverted.setText("Save As");
+        SaveInverted.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SaveInvertedActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout IndexingPanelLayout = new javax.swing.GroupLayout(IndexingPanel);
         IndexingPanel.setLayout(IndexingPanelLayout);
@@ -94,21 +115,17 @@ public class STBIframe extends javax.swing.JFrame {
                 .addGroup(IndexingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(IndexingPanelLayout.createSequentialGroup()
                         .addComponent(jLabel3)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, IndexingPanelLayout.createSequentialGroup()
                         .addGroup(IndexingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(IndexingPanelLayout.createSequentialGroup()
                                 .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 138, Short.MAX_VALUE)
                                 .addComponent(BrowseDoc))
                             .addGroup(IndexingPanelLayout.createSequentialGroup()
-                                .addGroup(IndexingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2)
-                                    .addComponent(DoIndexing))
+                                .addComponent(DoIndexing)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(IndexingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(BrowseQuery, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(SaveInverted, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addComponent(SaveInverted, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(68, 68, 68))
                     .addGroup(IndexingPanelLayout.createSequentialGroup()
                         .addComponent(jLabel7)
@@ -124,16 +141,12 @@ public class STBIframe extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addComponent(BrowseDoc))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(IndexingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(BrowseQuery))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(IndexingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(DoIndexing)
                     .addComponent(SaveInverted))
-                .addContainerGap())
+                .addGap(40, 40, 40))
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -146,10 +159,25 @@ public class STBIframe extends javax.swing.JFrame {
         jLabel5.setText("Relevance Judgment");
 
         BrowseRet.setText("Browse..");
+        BrowseRet.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BrowseRetActionPerformed(evt);
+            }
+        });
 
         BrowseRelev.setText("Browse..");
+        BrowseRelev.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BrowseRelevActionPerformed(evt);
+            }
+        });
 
         CountPerform.setText("Count Performance");
+        CountPerform.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CountPerformActionPerformed(evt);
+            }
+        });
 
         SavePerform.setText("Save As");
 
@@ -173,7 +201,7 @@ public class STBIframe extends javax.swing.JFrame {
                         .addGap(66, 66, 66))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel6)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addContainerGap())))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -226,7 +254,7 @@ public class STBIframe extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel8)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -261,12 +289,12 @@ public class STBIframe extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(OptionButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(IndexingPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(IndexingPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(11, 11, 11)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -286,16 +314,82 @@ public class STBIframe extends javax.swing.JFrame {
 
     private void BrowseDocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BrowseDocActionPerformed
  
-        Browse s = new Browse();
-        s.setVisible(true);
+        JFileChooser tChooser = new JFileChooser();
+        tChooser.setDialogTitle("Choose File");
+        int tOption = tChooser.showOpenDialog(this);
+        if (tOption == JFileChooser.APPROVE_OPTION) {
+            mInputFile = tChooser.getSelectedFile();
+            doc=mInputFile.getAbsolutePath();
+            //inputFileText.setText(mInputFile.getName());
+        }
         // TODO add your handling code here:
     }//GEN-LAST:event_BrowseDocActionPerformed
 
     private void RetrieveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RetrieveActionPerformed
-// RetrieveResult st = new RetrieveResult();
-//        st.setVisible(true);
+        try {
+            // RetrieveResult st = new RetrieveResult();
+            //        st.setVisible(true);
+                    
+                    a.hitungQuery("ibm maintain too", Setting.Singleton().getCodeQuery(), chaos, Setting.Singleton().getStopword(), Setting.Singleton().getStemming(), "testcase/stopwords/english");
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(STBIframe.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(STBIframe.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        a.createWeightTable(chaos);
+        ArrayList<String> OutputFirstRetrieval = a.firstPhaseRetrieval(Setting.Singleton().getCodeQuery(), Setting.Singleton().getCodeDocument());
+
+        fb=new feedback(OutputFirstRetrieval);
+        ArrayList<String> OutputSecondRetrieval = a.secondPhaseRetrieval(Setting.Singleton().fb, Setting.Singleton().alpha, Setting.Singleton().beta, Setting.Singleton().ganma, Setting.Singleton().getCodeQuery(), Setting.Singleton().getCodeDocument());
+
         // TODO add your handling code here:
     }//GEN-LAST:event_RetrieveActionPerformed
+
+    private void BrowseRetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BrowseRetActionPerformed
+        // TODO add your handling code here:                             
+ 
+        JFileChooser tChooser = new JFileChooser();
+        tChooser.setDialogTitle("Choose File");
+        int tOption = tChooser.showOpenDialog(this);
+        if (tOption == JFileChooser.APPROVE_OPTION) {
+            mInputFile = tChooser.getSelectedFile();
+            ret=mInputFile.getAbsolutePath();
+            //inputFileText.setText(mInputFile.getName());
+        }
+    }//GEN-LAST:event_BrowseRetActionPerformed
+
+    private void BrowseRelevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BrowseRelevActionPerformed
+        // TODO add your handling code here:                             
+ 
+        JFileChooser tChooser = new JFileChooser();
+        tChooser.setDialogTitle("Choose File");
+        int tOption = tChooser.showOpenDialog(this);
+        if (tOption == JFileChooser.APPROVE_OPTION) {
+            mInputFile = tChooser.getSelectedFile();
+            rel=mInputFile.getAbsolutePath();
+            //inputFileText.setText(mInputFile.getName());
+        }
+    }//GEN-LAST:event_BrowseRelevActionPerformed
+
+    private void DoIndexingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DoIndexingActionPerformed
+        // TODO add your handling code here:
+        
+//        browser 
+        ArrayList<TextData> zenki = Parser.parseFile(doc,"testcase/stopwords/english",Setting.Singleton().getStemming());
+        chaos = new InvertedFile(zenki);
+        chaos.countInvertedFile(Setting.Singleton().DocumentTf,Setting.Singleton().DocumentIdf);
+    }//GEN-LAST:event_DoIndexingActionPerformed
+
+    private void SaveInvertedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveInvertedActionPerformed
+        // TODO add your handling code here:
+        chaos.saveInvertedFile();
+        chaos.saveListOfDocument();
+    }//GEN-LAST:event_SaveInvertedActionPerformed
+
+    private void CountPerformActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CountPerformActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_CountPerformActionPerformed
 
     /**/
     /**
@@ -334,7 +428,6 @@ public class STBIframe extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BrowseDoc;
-    private javax.swing.JButton BrowseQuery;
     private javax.swing.JButton BrowseRelev;
     private javax.swing.JButton BrowseRet;
     private javax.swing.JButton CountPerform;
@@ -346,7 +439,6 @@ public class STBIframe extends javax.swing.JFrame {
     private javax.swing.JButton SavePerform;
     private javax.swing.JTextField SearchBar;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
