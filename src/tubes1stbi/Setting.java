@@ -48,6 +48,9 @@ public class Setting {
     public int DocumentTf;
     public int DocumentIdf;
     public int DocumentNormalisasi;
+    public double alpha;
+    public double beta;
+    public double ganma;
     
     static Setting set=null;
    
@@ -61,6 +64,9 @@ public class Setting {
         DocumentTf=documentTfBinary;
         DocumentIdf=documentIdfNo;
         DocumentNormalisasi=documentNormalisasiNo;
+        alpha=0;
+        beta=0;
+        ganma=0;
     }
     
     //singleton
@@ -109,6 +115,30 @@ public class Setting {
         }
                 
         return retval;
+    }
+    
+    public boolean getStopword()
+    {
+        if(Stopword==stopwordYes)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+    public boolean getStemming()
+    {
+        if(Stemming==stemmingYes)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
     
     

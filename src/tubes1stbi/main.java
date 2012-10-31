@@ -23,7 +23,8 @@ public class main {
         s.stem();
         System.out.println("hasil: "+s.toString());
         
-        System.out.println(Setting.Singleton().QueryTf);
+        System.out.println(Setting.Singleton().getStemming());
+        
         
         
     }
