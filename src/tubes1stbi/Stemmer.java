@@ -457,7 +457,7 @@ class Stemmer
       
     Stemmer s = new Stemmer();
     String tes;
-    tes="beautiful";
+    tes="pitiful";
     s.add(tes.toCharArray(), tes.length());
     s.stem();
     System.out.println("hasil: "+s.toString());
