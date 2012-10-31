@@ -389,33 +389,33 @@ public class rf {
     public static void main(String args[]) throws FileNotFoundException, IOException {
         rf a = new rf();
 //        browser 
-        ArrayList<TextData> zenki = Parser.parseFile("testcase/adi/adi.all","testcase/stopwords/english",true);
+        ArrayList<TextData> zenki = Parser.parseFile("testcase/adi/adi.all","testcase/stopwords/english",Setting.Singleton().getStemming());
         InvertedFile chaos = new InvertedFile(zenki);
-        chaos.countInvertedFile(1,1);
+        chaos.countInvertedFile(Setting.Singleton().DocumentTf,Setting.Singleton().DocumentIdf);
 //        
         /*InvertedFile chaos = new InvertedFile();
         chaos.loadInvertedFile();
         chaos.loadListOfDocument();*/
         
-        a.hitungQuery("ibm maintain too", "bnn", chaos, true, true, "testcase/stopwords/english");
+        a.hitungQuery("ibm maintain too", Setting.Singleton().getCodeQuery(), chaos, Setting.Singleton().getStopword(), Setting.Singleton().getStemming(), "testcase/stopwords/english");
         a.createWeightTable(chaos);
 //        a.printWeightTable();
 //        
 //        System.out.println("===============");
 //        
-        ArrayList<String> OutputFirstRetrieval = a.firstPhaseRetrieval("ltc", "ltc");
+        ArrayList<String> OutputFirstRetrieval = a.firstPhaseRetrieval(Setting.Singleton().getCodeQuery(), Setting.Singleton().getCodeDocument());
 //        for (int i = 0; i < OutputFirstRetrieval.size(); i++) {
 //            System.out.println(OutputFirstRetrieval.get(i));
 //        }
 //        
 //        System.out.println("===============");
         
-        ArrayList<String> Feedback = new ArrayList<String>();
-        Feedback.add("1");
-        Feedback.add("37");
-        Feedback.add("48");
-        Feedback.add("69");
-        ArrayList<String> OutputSecondRetrieval = a.secondPhaseRetrieval(Feedback, 1.0, 1.0, 1.0, "ltn", "ltn");
+//        ArrayList<String> Feedback = new ArrayList<String>();
+//        Feedback.add("1");
+//        Feedback.add("37");
+//        Feedback.add("48");
+//        Feedback.add("69");
+        ArrayList<String> OutputSecondRetrieval = a.secondPhaseRetrieval(Setting.Singleton().fb, Setting.Singleton().alpha, Setting.Singleton().beta, Setting.Singleton().ganma, Setting.Singleton().getCodeQuery(), Setting.Singleton().getCodeDocument());
 //        for (int i = 0; i < OutputSecondRetrieval.size(); i++) {
 //            System.out.println(OutputSecondRetrieval.get(i));
 //        }

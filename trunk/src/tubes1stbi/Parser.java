@@ -153,7 +153,8 @@ public class Parser {
                     if(stops.contains(rtf.term))
                     {
 //                        System.out.println("stopword term found : "+rtf.term);
-                        itx.remove();
+                        if(Setting.Singleton().getStopword())
+                            itx.remove();
                     }
                 }
             }
