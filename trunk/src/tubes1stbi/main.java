@@ -24,5 +24,7 @@ public class main {
         System.out.println("hasil: "+s.toString());
         
         System.out.println(Setting.Singleton().QueryTf);
+        
+        
     }
 }
