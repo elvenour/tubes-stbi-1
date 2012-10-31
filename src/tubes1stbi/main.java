@@ -22,5 +22,7 @@ public class main {
         s.add(tes.toCharArray(), tes.length());
         s.stem();
         System.out.println("hasil: "+s.toString());
+        
+        System.out.println(Setting.Singleton().QueryTf);
     }
 }
