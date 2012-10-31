@@ -289,6 +289,16 @@ public class rf {
                 Hasil.get(i).tf = 0.5 + 0.5 * (x / max);
             }
         }
+        else if (jenis == 3) { // binary TF
+            for (int i = 0; i < Hasil.size(); i++) {
+                if (Hasil.get(i).tf != 0.0) {
+                    System.out.println("waaw");
+                    Pair px = new Pair(Hasil.get(i).Name, 1.0);
+                    Hasil.remove(i);
+                    Hasil.add(i, px);
+                }
+            }
+        }
         
         return Hasil;
     }
@@ -351,6 +361,9 @@ public class rf {
         else if (tf == 'r') { // hitung menggunakan raw tf
             ArrayTF = countTF(2, ListTermInQuery);
         }
+        else if (tf == 'b') { // hitung menggunakan binary tf
+            ArrayTF = countTF(3, ListTermInQuery);
+        }
         
         // Hitung IDF
         ArrayList<Pair> ArrayIDF = new ArrayList<Pair>();
@@ -380,7 +393,7 @@ public class rf {
         InvertedFile chaos = new InvertedFile(zenki);
         chaos.countInvertedFile(1,1);
         
-        a.hitungQuery("ibm maintain too", "ltn", chaos, true, true, "testcase/stopwords/english");
+        a.hitungQuery("ibm maintain too", "bnn", chaos, true, true, "testcase/stopwords/english");
         a.createWeightTable(chaos);
         a.printWeightTable();
         
