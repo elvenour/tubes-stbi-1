@@ -249,11 +249,11 @@ public class TFoption extends javax.swing.JFrame {
 
         jLabel4.setText("ganma :");
 
-        alpha.setText("0");
+        alpha.setText("1");
 
-        beta.setText("0");
+        beta.setText("1");
 
-        ganma.setText("0");
+        ganma.setText("1");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);

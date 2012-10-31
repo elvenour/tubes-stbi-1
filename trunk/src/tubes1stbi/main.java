@@ -15,17 +15,19 @@ public class main {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        
-        Stemmer s = new Stemmer();
-        String tes;
-        tes="playing";
-        s.add(tes.toCharArray(), tes.length());
-        s.stem();
-        System.out.println("hasil: "+s.toString());
-        
-        System.out.println(Setting.Singleton().getStemming());
-        
-        
+//        
+//        Stemmer s = new Stemmer();
+//        String tes;
+//        tes="playing";
+//        s.add(tes.toCharArray(), tes.length());
+//        s.stem();
+//        System.out.println("hasil: "+s.toString());
+//        
+////        System.out.println(Setting.Singleton().getStemming());
+//        System.out.println(Setting.Singleton().getCodeQuery());
+//        
+        STBIframe tes=new STBIframe();
+        tes.setVisible(true);
         
     }
 }
