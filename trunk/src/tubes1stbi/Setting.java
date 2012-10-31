@@ -10,7 +10,6 @@ package tubes1stbi;
  */
 public class Setting {
 
-    Setting set=new Setting();
     
     public static int stopwordNo=0;
     public static int stopwordYes=1;
@@ -18,9 +17,9 @@ public class Setting {
     public static int stemmingNo=0;
     public static int stemmingYes=1;
     
-    public static int queryTfBinary=1;
-    public static int queryTfLogaritmik=2;
-    public static int queryTfAugmented=3;
+    public static int queryTfBinary=0;
+    public static int queryTfLogaritmik=1;
+    public static int queryTfAugmented=2;
     
     public static int queryIdfNo=0;
     public static int queryIdfYes=1;
@@ -28,9 +27,9 @@ public class Setting {
     public static int queryNormalisasiNo=0;
     public static int queryNormalisasiYes=1;
     
-    public static int documentTfBinary=1;
-    public static int documentTfLogaritmik=2;
-    public static int documentTfAugmented=3;
+    public static int documentTfBinary=0;
+    public static int documentTfLogaritmik=1;
+    public static int documentTfAugmented=2;
     
     public static int documentIdfNo=0;
     public static int documentIdfYes=1;
@@ -46,6 +45,8 @@ public class Setting {
     public int DocumentTf;
     public int DocumentIdf;
     public int DocumentNormalisasi;
+    
+    static Setting set=null;
    
     Setting()
     {
@@ -60,8 +61,12 @@ public class Setting {
     }
     
     //singleton
-    Setting Singleton()
+    public static Setting Singleton()
     {
+        if(set == null)
+        {
+            set = new Setting();
+        }
         return set;
     }
     
