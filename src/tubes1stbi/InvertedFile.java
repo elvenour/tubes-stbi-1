@@ -114,7 +114,7 @@ public class InvertedFile {
         // sort       
     }
     
-    public void saveInvertedFile() {
+    public String saveInvertedFile() {
         String filename = "InvertedFile.txt";
         String content = "";
         
@@ -132,11 +132,13 @@ public class InvertedFile {
             BufferedWriter out = new BufferedWriter(new FileWriter(filename));
             out.write(content);
             out.close();
+            return content;
         } catch (IOException e) {
         }
+            return content;
     }
     
-    public void saveListOfDocument() {
+    public String saveListOfDocument() {
         String filename = "ListOfDocument.txt";
         String content = "";
         
@@ -155,10 +157,11 @@ public class InvertedFile {
             out.close();
         } catch (IOException e) {
         }
+        return content;
     }
     
-    public void loadInvertedFile() {
-        String filename = "InvertedFile.txt";
+    public void loadInvertedFile(String path) {
+        String filename = path;
         Inverted = new ArrayList<InvertedFileSatuan>();
         
         try {
@@ -221,8 +224,8 @@ public class InvertedFile {
         }
     }
     
-    public void loadListOfDocument() {
-        String filename = "ListOfDocument.txt";
+    public void loadListOfDocument(String path) {
+        String filename = path;
         
         try {
             BufferedReader in = new BufferedReader(new FileReader(filename));
@@ -246,8 +249,8 @@ public class InvertedFile {
         /*chaos.saveInvertedFile();
         chaos.saveListOfDocument();*/
         
-        chaos.loadInvertedFile();
-        chaos.loadListOfDocument();
+//        chaos.loadInvertedFile();
+//        chaos.loadListOfDocument();
         chaos.printInvertedFile();
     }
 }

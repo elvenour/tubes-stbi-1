@@ -69,6 +69,7 @@ public class STBIframe extends javax.swing.JFrame {
         SearchBar = new javax.swing.JTextField();
         Retrieve = new javax.swing.JButton();
         Hasil = new javax.swing.JButton();
+        loadinvlist = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("ArkSearcher");
@@ -257,6 +258,13 @@ public class STBIframe extends javax.swing.JFrame {
             }
         });
 
+        loadinvlist.setText("load inverted dan list");
+        loadinvlist.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loadinvlistActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -268,7 +276,9 @@ public class STBIframe extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap()
+                        .addComponent(loadinvlist)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(Hasil))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(35, 35, 35)
@@ -287,7 +297,9 @@ public class STBIframe extends javax.swing.JFrame {
                     .addComponent(Retrieve)
                     .addComponent(SearchBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(Hasil)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Hasil)
+                    .addComponent(loadinvlist))
                 .addContainerGap(15, Short.MAX_VALUE))
         );
 
@@ -365,7 +377,19 @@ public class STBIframe extends javax.swing.JFrame {
         String tampil="hasil pertama:\n";
         for(int i=0;i<OutputFirstRetrieval.size();i++)
         {
-            tampil+=OutputFirstRetrieval.get(i)+"\n";
+            tampil+=OutputFirstRetrieval.get(i) + " ";
+            int idx = 0;
+            boolean cek = false;
+            while ((cek == false) && (idx < chaos.ListOfDocument.size())) {
+                if (OutputFirstRetrieval.get(i).equals(Integer.toString(chaos.ListOfDocument.get(idx).docnum))) {
+                    cek = true;
+                }
+                else {
+                    ++idx;
+                }
+            }
+            
+            tampil+= chaos.ListOfDocument.get(idx).title + "\n";
             System.out.println(OutputFirstRetrieval.get(i));
         }
        
@@ -375,6 +399,9 @@ public class STBIframe extends javax.swing.JFrame {
         fb=new feedback(OutputFirstRetrieval);
         fb.setVisible(true);
         
+        ReadDoc e=new ReadDoc(chaos);
+        e.setVisible(true);
+        
         // TODO add your handling code here:
     }//GEN-LAST:event_RetrieveActionPerformed
 
@@ -382,7 +409,7 @@ public class STBIframe extends javax.swing.JFrame {
         // TODO add your handling code here:                             
  
         JFileChooser tChooser = new JFileChooser();
-        tChooser.setDialogTitle("Choose File");
+        tChooser.setDialogTitle("Choose Retrieval File");
         int tOption = tChooser.showOpenDialog(this);
         if (tOption == JFileChooser.APPROVE_OPTION) {
             mInputFile = tChooser.getSelectedFile();
@@ -395,7 +422,7 @@ public class STBIframe extends javax.swing.JFrame {
         // TODO add your handling code here:                             
  
         JFileChooser tChooser = new JFileChooser();
-        tChooser.setDialogTitle("Choose File");
+        tChooser.setDialogTitle("Choose Relevance File");
         int tOption = tChooser.showOpenDialog(this);
         if (tOption == JFileChooser.APPROVE_OPTION) {
             mInputFile = tChooser.getSelectedFile();
@@ -416,8 +443,30 @@ public class STBIframe extends javax.swing.JFrame {
 
     private void SaveInvertedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveInvertedActionPerformed
         // TODO add your handling code here:
-        chaos.saveInvertedFile();
-        chaos.saveListOfDocument();
+        //chaos.saveInvertedFile();
+        
+        JFileChooser tChooser = new JFileChooser();
+//        FileNameExtensionFilter tFilter = new FileNameExtensionFilter(
+//                "Bitmap Image (*.bmp)", "bmp", "BMP");
+//        tChooser.setFileFilter(tFilter);
+        tChooser.setDialogTitle("Save Inverted file");
+        int tOption = tChooser.showSaveDialog(this);
+        if (tOption == JFileChooser.APPROVE_OPTION) {
+            File f = tChooser.getSelectedFile();
+            save(f, chaos.saveInvertedFile());
+            }
+        
+        //chaos.saveListOfDocument();
+        JFileChooser tChooser2 = new JFileChooser();
+//        FileNameExtensionFilter tFilter = new FileNameExtensionFilter(
+//                "Bitmap Image (*.bmp)", "bmp", "BMP");
+//        tChooser.setFileFilter(tFilter);
+        tChooser2.setDialogTitle("Save List Document");
+        int tOption2 = tChooser2.showSaveDialog(this);
+        if (tOption2 == JFileChooser.APPROVE_OPTION) {
+            File f2 = tChooser2.getSelectedFile();
+            save(f2, chaos.saveListOfDocument());
+            }
     }//GEN-LAST:event_SaveInvertedActionPerformed
 
     private void CountPerformActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CountPerformActionPerformed
@@ -465,6 +514,32 @@ public class STBIframe extends javax.swing.JFrame {
             }
         
     }//GEN-LAST:event_SavePerformActionPerformed
+
+    private void loadinvlistActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadinvlistActionPerformed
+        // TODO add your handling code here:                                       
+ 
+        
+        chaos = new InvertedFile();
+        
+        JFileChooser tChooser = new JFileChooser();
+        tChooser.setDialogTitle("Choose Inverted File");
+        int tOption = tChooser.showOpenDialog(this);
+        if (tOption == JFileChooser.APPROVE_OPTION) {
+            mInputFile = tChooser.getSelectedFile();
+            System.out.println(mInputFile.getAbsolutePath());
+            chaos.loadInvertedFile(mInputFile.getAbsolutePath());
+            //inputFileText.setText(mInputFile.getName());
+        }
+        
+        JFileChooser tChooser2 = new JFileChooser();
+        tChooser2.setDialogTitle("Choose List File");
+        int tOption2 = tChooser2.showOpenDialog(this);
+        if (tOption2 == JFileChooser.APPROVE_OPTION) {
+            mInputFile = tChooser2.getSelectedFile();
+            chaos.loadListOfDocument(mInputFile.getAbsolutePath());
+            //inputFileText.setText(mInputFile.getName());
+        }
+    }//GEN-LAST:event_loadinvlistActionPerformed
 
     public void save(File f, String hasil)
     {
@@ -541,5 +616,6 @@ public class STBIframe extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JButton loadinvlist;
     // End of variables declaration//GEN-END:variables
 }

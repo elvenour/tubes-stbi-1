@@ -19,6 +19,74 @@ public class TFoption extends javax.swing.JFrame {
     public TFoption() {
         initComponents();
         this.setLocationRelativeTo(null);
+        
+        if(Setting.Singleton().QueryTf==Setting.queryTfBinary)
+        {
+            qtf1.setSelected(true);
+        }
+        else if(Setting.Singleton().QueryTf==Setting.queryTfLogaritmik)
+        {
+            qtf2.setSelected(true);
+        }
+        else
+        {
+            qtf3.setSelected(true);
+        }
+        
+        
+        if(Setting.Singleton().DocumentTf==Setting.documentTfBinary)
+        {
+            dtf1.setSelected(true);
+        }
+        else if(Setting.Singleton().DocumentTf==Setting.documentTfLogaritmik)
+        {
+            dtf2.setSelected(true);
+        }
+        else
+        {
+            dtf3.setSelected(true);
+        }
+        
+        stopword.setSelected(Setting.Singleton().getStopword());
+        stemming.setSelected(Setting.Singleton().getStemming());
+        alpha.setText(String.valueOf(Setting.Singleton().alpha));
+        beta.setText(String.valueOf(Setting.Singleton().beta));
+        ganma.setText(String.valueOf(Setting.Singleton().ganma));
+        
+        if(Setting.Singleton().QueryIdf==Setting.queryIdfYes)
+        {
+            qidf.setSelected(true);
+        }
+        else
+        {
+            qidf.setSelected(false);
+        }
+        if(Setting.Singleton().QueryNormalisasi==Setting.queryNormalisasiYes)
+        {
+            qnormal.setSelected(true);
+        }
+        else
+        {
+            qnormal.setSelected(false);
+        }
+        
+        
+        if(Setting.Singleton().DocumentIdf==Setting.documentIdfYes)
+        {
+            didf.setSelected(true);
+        }
+        else
+        {
+            didf.setSelected(false);
+        }
+        if(Setting.Singleton().DocumentNormalisasi==Setting.documentNormalisasiYes)
+        {
+            dnormal.setSelected(true);
+        }
+        else
+        {
+            dnormal.setSelected(false);
+        }
     }
 
     /**
@@ -106,7 +174,6 @@ public class TFoption extends javax.swing.JFrame {
         jLabel3.setText("Query");
 
         QueryTermFrequencyG.add(qtf1);
-        qtf1.setSelected(true);
         qtf1.setText("Binary TF");
 
         QueryTermFrequencyG.add(qtf2);
@@ -182,7 +249,6 @@ public class TFoption extends javax.swing.JFrame {
         jLabel11.setText("Document");
 
         DocumentTermFrequencyG.add(dtf1);
-        dtf1.setSelected(true);
         dtf1.setText("Binary TF");
 
         DocumentTermFrequencyG.add(dtf2);
@@ -506,10 +572,7 @@ public class TFoption extends javax.swing.JFrame {
     private javax.swing.JRadioButton dtf2;
     private javax.swing.JRadioButton dtf3;
     private javax.swing.JTextField ganma;
-    private javax.swing.JCheckBox jCheckBox5;
-    private javax.swing.JCheckBox jCheckBox6;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
@@ -517,15 +580,10 @@ public class TFoption extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
-    private javax.swing.JRadioButton jRadioButton15;
-    private javax.swing.JRadioButton jRadioButton16;
-    private javax.swing.JRadioButton jRadioButton8;
     private javax.swing.JCheckBox qidf;
     private javax.swing.JCheckBox qnormal;
     private javax.swing.JRadioButton qtf1;
